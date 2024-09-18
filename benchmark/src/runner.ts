@@ -1,10 +1,8 @@
 import {
-	formatCEP,
 	formatCNPJ,
 	formatCPF,
 	generateCNPJ,
 	generateCPF,
-	isValidCEP,
 	isValidCNPJ,
 	isValidCPF,
 } from "@brazilian-utils/brazilian-utils";
@@ -13,7 +11,7 @@ import tamnil_faker from "faker-br";
 import rhaymisonbetini from "faker-brasil";
 import { baseline, bench, group, run } from "mitata";
 import tsBrasil from "../../src/index.js";
-import { render } from "./render.js";
+import { generateCharts } from "./chart.js";
 
 const rhaymisonbetini_faker = new rhaymisonbetini();
 
@@ -111,25 +109,39 @@ group("Gerar, validar e formatar CNPJ", () => {
 	});
 });
 
-const cep = tsBrasil.faker.cep();
-
-group("Validar e formatar CEP", () => {
-	baseline("lobomfz/ts-brasil", () => {
-		tsBrasil.validator.cep(cep);
-
-		tsBrasil.masks.cep(cep);
-	});
-
-	bench("brazilian-utils", () => {
-		isValidCEP(cep);
-
-		formatCEP(cep);
-	});
-});
-
 const res = await run({
 	json: true,
 	silent: true,
 });
 
-await Bun.write("results.md", render(res));
+const data = {
+	cpu: res.cpu,
+	runtime: res.runtime,
+	benchmarks: Object.values(res.benchmarks).map((item) => {
+		return {
+			name: item.name,
+			time: item.time,
+			baseline: item.baseline,
+			group: item.group,
+			error: item.error,
+			stats: {
+				avg: item.stats?.avg,
+				min: item.stats?.min,
+				max: item.stats?.max,
+			},
+		};
+	}),
+};
+
+export type BenchmarkData = typeof data;
+
+const charts = generateCharts(data);
+
+for (const [group, chartSvg] of Object.entries(charts)) {
+	await Bun.write(
+		`../charts/${group.replace(/\s+/g, "_").replaceAll(",", "").toLowerCase()}_chart.svg`,
+		chartSvg,
+	);
+}
+
+console.log("Charts generated successfully!");
