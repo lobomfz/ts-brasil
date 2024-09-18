@@ -1,6 +1,6 @@
 {
 	"name": "ts-brasil",
-	"version": "0.0.3",
+	"version": "0.0.4",
 	"description": "Utilidades TS para o Brasil",
 	"license": "MIT",
 	"keywords": ["typescript", "brasil", "faker"],

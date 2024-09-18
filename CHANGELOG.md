@@ -1,5 +1,11 @@
 # ts-brasil
 
+## 0.0.4
+
+### Patch Changes
+
+- 1bfb890: unificar fns
+
 ## 0.0.3
 
 ### Patch Changes
