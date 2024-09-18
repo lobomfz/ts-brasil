@@ -1,0 +1,13 @@
+{
+	"name": "ts-brasil-benchmark",
+	"version": "0.0.1",
+	"scripts": {
+		"start": "bun src/runner.ts"
+	},
+	"dependencies": {
+		"@js-brasil/fakerbr": "0.0.2",
+		"faker-br": "0.4.1",
+		"faker-brasil": "1.0.2",
+		"mitata": "^0.1.14"
+	}
+}
