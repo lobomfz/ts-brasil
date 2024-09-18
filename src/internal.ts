@@ -1,4 +1,4 @@
-import { cepLookup } from "./lookup/cep.js";
+import { ufs } from "./lookup.js";
 import type { UFS } from "./types.js";
 
 const cnpjWeight = [2, 3, 4, 5, 6, 7, 8, 9, 2, 3, 4, 5, 6];
@@ -12,6 +12,14 @@ export const internal = {
 		}
 
 		return arr;
+	},
+
+	randomInt(min: number, max: number): number {
+		return Math.floor(Math.random() * (max - min) + min);
+	},
+
+	randomArrEl<T>(arr: T[]): T {
+		return arr[internal.randomInt(0, arr.length)]!;
 	},
 
 	cpfDigit(numbers: number[]): number {
@@ -59,7 +67,7 @@ export const internal = {
 	},
 
 	cepByUf(uf: UFS): string {
-		const { min, max } = cepLookup[uf];
+		const { min, max } = ufs[uf].cep;
 
 		return internal.calcCep(min, max);
 	},
@@ -71,9 +79,7 @@ export const internal = {
 	): T extends true ? number[] : string[] {
 		const arr: any[] = [];
 
-		const m = max ?? input.length;
-
-		for (let i = 0; i < m; i++) {
+		for (let i = 0; i < input.length; i++) {
 			switch (input[i]) {
 				case "0":
 				case "1":
@@ -94,10 +100,16 @@ export const internal = {
 				default:
 					break;
 			}
+
+			if (arr.length === max) break;
 		}
 
 		return arr;
 	},
 
-	cepLookup,
+	ufs,
+
+	cellFirstDigits: [6, 7, 8, 9],
+
+	cellFirstDigitsSet: new Set([6, 7, 8, 9]),
 };

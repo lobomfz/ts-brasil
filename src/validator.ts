@@ -1,4 +1,5 @@
 import { internal } from "./internal.js";
+import { allAcs } from "./lookup.js";
 
 export const validator = {
 	cpf(cpf: string): boolean {
@@ -61,6 +62,21 @@ export const validator = {
 		const arr = internal.extractDigits(cep, 8);
 
 		if (arr.length !== 8) return false;
+
+		return true;
+	},
+
+	// em ordem de custo
+	mobilePhone(phone: string): boolean {
+		const arr = internal.extractDigits(phone, 11, true);
+
+		if (arr.length !== 11) return false;
+
+		if (arr[2] !== 9) return false;
+
+		if (!internal.cellFirstDigitsSet.has(arr[3]!)) return false;
+
+		if (!allAcs.has(Number(`${arr[0]}${arr[1]}`))) return false;
 
 		return true;
 	},

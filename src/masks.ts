@@ -60,4 +60,24 @@ export const masks = {
 
 		return str;
 	},
+
+	mobilePhone(phone: string): string {
+		const digits = internal.extractDigits(phone, 11);
+
+		let str = "";
+
+		for (let i = 0; i < digits.length; i++) {
+			if (i === 2) {
+				str += " ";
+			}
+
+			if (i === 7) {
+				str += "-";
+			}
+
+			str += digits[i];
+		}
+
+		return str;
+	},
 };

@@ -5,6 +5,7 @@ import {
 	generateCPF,
 	isValidCNPJ,
 	isValidCPF,
+	isValidMobilePhone,
 } from "@brazilian-utils/brazilian-utils";
 import { fakerBr as js_brasil_faker } from "@js-brasil/fakerbr";
 import tamnil_faker from "faker-br";
@@ -106,6 +107,33 @@ group("Gerar, validar e formatar CNPJ", () => {
 		isValidCNPJ(cnpj);
 
 		formatCNPJ(cnpj);
+	});
+});
+
+group("Gerar celular", () => {
+	baseline("lobomfz/ts-brasil", () => {
+		tsBrasil.faker.mobilePhone();
+	});
+
+	bench("rhaymisonbetini/faker-brasil", () => {
+		rhaymisonbetini_faker.cellPhone();
+	});
+
+	bench("js-brasil/fakerbr", () => {
+		js_brasil_faker.celular();
+	});
+});
+
+const phone = tsBrasil.faker.mobilePhone();
+
+// TODO: investigar
+group("Validar celular", () => {
+	baseline("lobomfz/ts-brasil", () => {
+		tsBrasil.validator.mobilePhone(phone);
+	});
+
+	bench("brazilian-utils", () => {
+		isValidMobilePhone(phone);
 	});
 });
 

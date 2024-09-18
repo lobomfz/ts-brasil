@@ -1,4 +1,5 @@
 import { internal } from "./internal.js";
+import { ufs, ufsArr } from "./lookup.js";
 import type { UFS } from "./types.js";
 
 export const faker = {
@@ -30,5 +31,17 @@ export const faker = {
 		}
 
 		return internal.calcCep(10000000, 99999999);
+	},
+
+	mobilePhone(uf?: UFS): string {
+		const acs = uf ? ufs[uf].acs : ufs[internal.randomArrEl(ufsArr)].acs;
+
+		const str =
+			String(internal.randomArrEl(acs)) +
+			"9" +
+			internal.randomArrEl(internal.cellFirstDigits) +
+			Math.floor(Math.random() * 10000000);
+
+		return str;
 	},
 };
