@@ -2,7 +2,7 @@ import { internal } from "./internal.js";
 
 export const validator = {
 	cpf(cpf: string): boolean {
-		const arr = internal.extractDigits(cpf);
+		const arr = internal.extractDigits(cpf, 11, true);
 
 		if (arr.length !== 11) return false;
 
@@ -34,7 +34,7 @@ export const validator = {
 	},
 
 	cnpj(cnpj: string): boolean {
-		const arr = internal.extractDigits(cnpj);
+		const arr = internal.extractDigits(cnpj, 14, true);
 
 		if (arr.length !== 14) return false;
 
@@ -58,7 +58,7 @@ export const validator = {
 	},
 
 	cep(cep: string): boolean {
-		const arr = internal.extractDigits(cep);
+		const arr = internal.extractDigits(cep, 8);
 
 		if (arr.length !== 8) return false;
 

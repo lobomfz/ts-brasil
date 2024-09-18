@@ -2,7 +2,7 @@ import { internal } from "./internal.js";
 
 export const masks = {
 	cpf(cpf: string): string {
-		const digits = internal.parseNumbersForMask(cpf, 11);
+		const digits = internal.extractDigits(cpf, 11);
 
 		let str = "";
 
@@ -22,7 +22,7 @@ export const masks = {
 	},
 
 	cnpj(cnpj: string): string {
-		const digits = internal.parseNumbersForMask(cnpj, 14);
+		const digits = internal.extractDigits(cnpj, 14);
 
 		let str = "";
 
@@ -46,7 +46,7 @@ export const masks = {
 	},
 
 	cep(cep: string): string {
-		const digits = internal.parseNumbersForMask(cep, 8);
+		const digits = internal.extractDigits(cep, 8);
 
 		let str = "";
 

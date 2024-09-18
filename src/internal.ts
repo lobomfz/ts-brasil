@@ -64,8 +64,12 @@ export const internal = {
 		return internal.calcCep(min, max);
 	},
 
-	extractDigits(input: string, max?: number): number[] {
-		const arr: number[] = [];
+	extractDigits<T extends boolean = false>(
+		input: string,
+		max: number,
+		number?: T,
+	): T extends true ? number[] : string[] {
+		const arr: any[] = [];
 
 		const m = max ?? input.length;
 
@@ -81,32 +85,11 @@ export const internal = {
 				case "7":
 				case "8":
 				case "9":
-					arr.push(Number(input[i]));
-					break;
-				default:
-					break;
-			}
-		}
-
-		return arr;
-	},
-
-	parseNumbersForMask(input: string, max: number): string[] {
-		const arr: string[] = [];
-
-		for (let i = 0; i < max; i++) {
-			switch (input[i]) {
-				case "0":
-				case "1":
-				case "2":
-				case "3":
-				case "4":
-				case "5":
-				case "6":
-				case "7":
-				case "8":
-				case "9":
-					arr.push(input[i]!);
+					if (number) {
+						arr.push(Number(input[i]));
+					} else {
+						arr.push(input[i]!);
+					}
 					break;
 				default:
 					break;
