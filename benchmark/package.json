@@ -5,9 +5,11 @@
 		"start": "bun src/runner.ts"
 	},
 	"dependencies": {
+		"@brazilian-utils/brazilian-utils": "^1.0.0-rc.12",
 		"@js-brasil/fakerbr": "0.0.2",
 		"faker-br": "0.4.1",
 		"faker-brasil": "1.0.2",
+		"jsdom": "^25.0.0",
 		"mitata": "^0.1.14"
 	}
 }

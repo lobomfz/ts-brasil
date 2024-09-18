@@ -1,44 +1,34 @@
 import { internal } from "./internal.js";
+import type { UFS } from "./types.js";
 
-const cnpjWeight1 = [2, 3, 4, 5, 6, 7, 8, 9, 2, 3, 4, 5];
-const cnpjWeight2 = [2, 3, 4, 5, 6, 7, 8, 9, 2, 3, 4, 5, 6];
-
-export const fakerBr = {
+export const faker = {
 	cpf(): string {
-		const numbers = internal._randomArray(9);
+		const numbers = internal.randomArr(9);
 
-		numbers.push(internal._verifierDigit(numbers));
+		numbers.push(internal.cpfDigit(numbers));
 
-		numbers.push(internal._verifierDigit(numbers));
+		numbers.push(internal.cpfDigit(numbers));
 
-		return internal._toString(numbers);
+		return internal.toStr(numbers);
 	},
 
 	cnpj(): string {
-		const numbers = internal._randomArray(8, 9);
+		const numbers = internal.randomArr(8, 9);
 
 		numbers.push(0, 0, 0, 1);
 
-		let temp = 0;
+		numbers.push(internal.cnpjDigit(numbers, 11));
 
-		for (let i = 0; i < numbers.length; i++) {
-			temp += numbers[11 - i]! * cnpjWeight1[i]!;
+		numbers.push(internal.cnpjDigit(numbers, 12));
+
+		return internal.toStr(numbers);
+	},
+
+	cep(uf?: UFS): string {
+		if (uf) {
+			return internal.cepByUf(uf);
 		}
 
-		const digit1Remainder = temp % 11;
-
-		numbers.push(digit1Remainder < 2 ? 0 : 11 - digit1Remainder);
-
-		temp = 0;
-
-		for (let i = 0; i < numbers.length; i++) {
-			temp += numbers[12 - i]! * cnpjWeight2[i]!;
-		}
-
-		const digit2Remainder = temp % 11;
-
-		numbers.push(digit2Remainder < 2 ? 0 : 11 - digit2Remainder);
-
-		return internal._toString(numbers);
+		return internal.calcCep(10000000, 99999999);
 	},
 };
